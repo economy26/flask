@@ -3,6 +3,16 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+order_product_table = db.Table(
+    'order_product_table',
+    db.Column('order_id', db.Integer, db.ForeignKey('order.id'), primary_key=True),
+    db.Column('product_id', db.Integer, db.ForeignKey('product.id'), primary_key=True),
+    
+)
+
+
+
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -14,7 +24,7 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_date = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    products = db.relationship('Product', secondary='order_product', backref='orders')
+    products = db.relationship('Product', secondary='order_product_table', backref='orders')
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)

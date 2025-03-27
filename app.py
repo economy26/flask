@@ -20,10 +20,11 @@ def create_app():
     ma.init_app(app)
 
     # Import models (after app context is set up)
-    with app.app_context():
-        from models import User, Order, Product, Order_Product
+    with app.app_context(): 
         db.create_all()
-
+    from routes import api
+    app.register_blueprint(api, url_prefix="/api")
+    
     return app
 
 
